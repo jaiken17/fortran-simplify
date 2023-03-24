@@ -20,10 +20,10 @@ module Simplify
 
 
 
-    interface euclidDistance
-        procedure :: euclidDistanceMulti
-        procedure :: euclidDistance1D
-    end interface euclidDistance
+    interface squareEuclidDistance
+        procedure :: squareEuclidDistanceMulti
+        procedure :: squareEuclidDistance1D
+    end interface squareEuclidDistance
 
 
 contains
@@ -113,7 +113,8 @@ contains
         real(dp),dimension(:,:),allocatable :: simpleCurve
         real(dp),dimension(:,:),intent(in) :: curve
         real(dp),intent(in) :: tolerance
-
+        
+        real(dp) :: squareTolerance
         integer :: i, length
         integer :: newLength
         logical :: notLast
@@ -132,6 +133,7 @@ contains
 
         allocate(simpleCurve(length,size(curve,dim=2)))
 
+        squareTolerance = tolerance*tolerance
 
         simpleCurve(1,:) = curve(1,:)
         newLength = 1
@@ -143,8 +145,8 @@ contains
             if (i==length) then
                 exit
             end if
-            distance = euclidDistance(current,curve(i,:))
-            if (distance > tolerance) then
+            distance = squareEuclidDistance(current,curve(i,:))
+            if (distance > squareTolerance) then
                 newLength = newLength + 1
                 simpleCurve(newLength,:) = curve(i,:)
             end if
@@ -161,7 +163,8 @@ contains
         real(dp),dimension(:),allocatable :: simpleCurve
         real(dp),dimension(:),intent(in) :: curve
         real(dp),intent(in) :: tolerance
-
+        
+        real(dp) :: squareTolerance
         integer :: i, length
         integer :: newLength
         logical :: notLast
@@ -180,6 +183,7 @@ contains
 
         allocate(simpleCurve(length))
 
+        squareTolerance = tolerance*tolerance
 
         simpleCurve(1) = curve(1)
         newLength = 1
@@ -191,8 +195,8 @@ contains
             if (i==length) then
                 exit
             end if
-            distance = euclidDistance(current,curve(i))
-            if (distance > tolerance) then
+            distance = squareEuclidDistance(current,curve(i))
+            if (distance > squareTolerance) then
                 newLength = newLength + 1
                 simpleCurve(newLength) = curve(i)
             end if
@@ -205,7 +209,7 @@ contains
 
     end function radialDistanceSingle
 
-    function euclidDistanceMulti(point1,point2) result(distance)
+    function squareEuclidDistanceMulti(point1,point2) result(distance)
         real(dp) :: distance
         real(dp),dimension(:),intent(in) :: point1,point2
 
@@ -222,17 +226,17 @@ contains
             squareSum = squareSum + (point1(i) - point2(i))**2
         end do
 
-        distance = sqrt(squareSum)
+        distance = squareSum
 
-    end function euclidDistanceMulti
+    end function squareEuclidDistanceMulti
 
-    function euclidDistance1D(point1,point2) result(distance)
+    function squareEuclidDistance1D(point1,point2) result(distance)
         real(dp) :: distance
         real(dp),intent(in) :: point1,point2
 
-        distance = abs(point1-point2)
+        distance = (point1-point2)**2
 
-    end function euclidDistance1D
+    end function squareEuclidDistance1D
 
 
 end module Simplify
