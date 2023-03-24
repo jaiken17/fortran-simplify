@@ -4,13 +4,20 @@ module Simplify
 
 
     private
-    public nthPoint
+    public nthPoint, radialDistance
 
 
     interface nthPoint
         procedure :: nthPointMulti
         procedure :: nthPointSingle
     end interface nthPoint
+
+    interface radialDistance
+        procedure :: radialDistanceMulti
+        procedure :: radialDistanceSingle
+    end interface radialDistance
+
+
 
 
     interface euclidDistance
