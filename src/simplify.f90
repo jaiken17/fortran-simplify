@@ -4,7 +4,7 @@ module Simplify
 
 
     private
-    public nthPoint, radialDistance
+    public nthPoint, radialDistance, perpendicularDistance
 
 
     interface nthPoint
@@ -17,7 +17,10 @@ module Simplify
         procedure :: radialDistanceSingle
     end interface radialDistance
 
-
+    interface perpendicularDistance
+        procedure :: perpDistance
+        procedure :: perpendicularDistanceRepeat
+    end interface perpendicularDistance
 
 
     interface squareEuclidDistance
@@ -88,7 +91,6 @@ contains
             stop 'linePoint1, linePoint2, point not all the same length'
         end if
 
-
         xMinusA = point - linePoint1
         bMinusA = linePoint2 - linePoint1
 
@@ -100,6 +102,8 @@ contains
     end function d2LinetoPoint
 
 ! ~~~~~~~ End Distance From Line to Point ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
 ! ~~~~~~~ Nth Point ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -118,11 +122,20 @@ contains
         integer :: counter,newLength
 
         length = size(curve,dim=1)
+        
+        ! Make necessary checks
+        if (length < 2) then
+            stop 'curve is too short'
+        end if
 
+        if (n < 1) then
+            stop 'n is too small (<1)'
+        end if
 
+        ! Allocate maximum memory needed, will be trimmed at the end
         allocate(simpleCurve(length,size(curve,dim=2)))
 
-        simpleCurve(1,:) = curve(1,:)
+        simpleCurve(1,:) = curve(1,:)   ! First element is always a key
         counter = 1; newLength = 1;
         do i=2,length-1
             counter = counter + 1
@@ -133,8 +146,9 @@ contains
             end if
         end do
         newLength = newLength + 1
-        simpleCurve(newLength,:) = curve(length,:)
-        simpleCurve = simpleCurve(1:newLength,:)
+        simpleCurve(newLength,:) = curve(length,:)  ! Last element is always a key
+        
+        simpleCurve = simpleCurve(1:newLength,:)    ! Resize final curve
 
 
     end function nthPointMulti
@@ -150,14 +164,19 @@ contains
 
         length = size(curve)
 
+        ! Make necessary checks
         if (length < 2) then
             stop 'curve is too short'
         end if
 
+        if (n < 1) then
+            stop 'n is too small (<1)'
+        end if
 
+        ! Allocate maximum memory needed, will be trimmed at the end
         allocate(simpleCurve(length))
 
-        simpleCurve(1) = curve(1)
+        simpleCurve(1) = curve(1)   ! First element is always a key
         counter = 1; newLength = 1;
         do i=2,length-1
             counter = counter + 1
@@ -167,9 +186,11 @@ contains
                 counter = 0 ! reset counter
             end if
         end do
+
         newLength = newLength + 1
-        simpleCurve(newLength) = curve(length)
-        simpleCurve = simpleCurve(1:newLength)
+        simpleCurve(newLength) = curve(length)  ! Last element is always a key
+        
+        simpleCurve = simpleCurve(1:newLength)  ! Resize final curve
 
 
     end function nthPointSingle
@@ -198,6 +219,7 @@ contains
         real(dp) :: distance
         real(dp),dimension(:),allocatable :: current
 
+        ! Make necessary checks
         if (tolerance <= 0._dp) then
             stop 'tolerance must be >0'
         end if
@@ -208,11 +230,12 @@ contains
 
         length = size(curve,dim=1)
 
+        ! Allocate absolute maximum memory needed, will be trimmed at end
         allocate(simpleCurve(length,size(curve,dim=2)))
 
         squareTolerance = tolerance*tolerance
 
-        simpleCurve(1,:) = curve(1,:)
+        simpleCurve(1,:) = curve(1,:)   ! First element is always a key
         newLength = 1
         i = 1
         notLast = .true.
@@ -230,9 +253,9 @@ contains
         end do
 
         newLength = newLength + 1
-        simpleCurve(newLength,:) = curve(length,:)
+        simpleCurve(newLength,:) = curve(length,:)  ! Last element is always a key
 
-        simpleCurve = simpleCurve(1:newLength,:)
+        simpleCurve = simpleCurve(1:newLength,:)    ! Resize final curve
 
     end function radialDistanceMulti
 
@@ -248,6 +271,8 @@ contains
         real(dp) :: distance
         real(dp) :: current
 
+        ! Make necessary checks
+
         if (tolerance <= 0._dp) then
             stop 'tolerance must be >0'
         end if
@@ -258,11 +283,14 @@ contains
 
         length = size(curve,dim=1)
 
+
+        ! Allocate absolute maximum amount of memory needed, will be trimmed at end
+
         allocate(simpleCurve(length))
 
         squareTolerance = tolerance*tolerance
 
-        simpleCurve(1) = curve(1)
+        simpleCurve(1) = curve(1)   ! First element is always a key
         newLength = 1
         i = 1
         notLast = .true.
@@ -280,9 +308,9 @@ contains
         end do
 
         newLength = newLength + 1
-        simpleCurve(newLength) = curve(length)
+        simpleCurve(newLength) = curve(length)  ! Last element is always a key
 
-        simpleCurve = simpleCurve(1:newLength)
+        simpleCurve = simpleCurve(1:newLength)  ! Resize final curve
 
     end function radialDistanceSingle
 
@@ -291,9 +319,9 @@ contains
 
 
 
-! ~~~~~~~ Perpindicular Distance ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! ~~~~~~~ Perpendicular Distance ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    ! perpindicularDistance is a function that implement the perpendicular
+    ! perpendicularDistance is a function that implement the perpendicular
     ! distance polyline simplification algorithm. It works on n>1-dimensional
     ! curves and takes a parameter "tolerance" which is the minimum 
     ! perpendicular distance a middle point can be from the line connecting 
@@ -307,18 +335,69 @@ contains
         real(dp),dimension(:,:),intent(in) :: curve
         real(dp),intent(in) :: tolerance
 
-        real(dp) :: squareTolerance
         integer :: i, length, newLength
-        real(dp) :: distance
+        real(dp) :: squareDistance, squareTolerance
         
 
+        length = size(curve,dim=1)
 
+        ! Make necessary checks
 
+        if (tolerance <= 0._dp) then
+            stop 'tolerance must be >0'
+        end if
+
+        if (size(curve,dim=1) < 2) then
+            stop 'curve is too short'
+        end if
+
+        squareTolerance = tolerance*tolerance
+
+        ! Allocate absolute maximum amount of memory, will get trimmed at end
+
+        allocate(simpleCurve(length,size(curve,dim=2)))
+
+        simpleCurve(1,:) = curve(1,:)   ! First element is always a key
+        newLength = 1
+
+        do i=2,length-1
+            squareDistance = d2LineToPoint(simpleCurve(newLength,:),curve(i+1,:),curve(i,:))
+            if (squareDistance >= squareTolerance) then
+                newLength = newLength + 1
+                simpleCurve(newLength,:) = curve(i,:)
+            end if
+        end do
+
+        newLength = newLength + 1
+        simpleCurve(newLength,:) = curve(length,:)  ! Last element is always a key
+
+        simpleCurve = simpleCurve(1:newLength,:)    ! Resize simpleCurve to only needed elements
 
     end function perpDistance
 
 
-! ~~~~~~~ End Perpindicular Distan~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    function perpendicularDistanceRepeat(curve,tolerance,repeat) result(simpleCurve)
+        real(dp),dimension(:,:),allocatable :: simpleCurve
+        real(dp),dimension(:,:),intent(in) :: curve
+        real(dp),intent(in) :: tolerance
+        integer,intent(in) :: repeat
+
+        integer :: i
+        
+        if (repeat < 1) then
+            stop 'number of repeats too small'
+        end if
+
+        simpleCurve = curve
+
+        do i=1,repeat
+            simpleCurve = perpDistance(simpleCurve,tolerance)
+        end do
+
+
+    end function perpendicularDistanceRepeat
+
+! ~~~~~~~ End Perpendicular Distan~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 end module Simplify
