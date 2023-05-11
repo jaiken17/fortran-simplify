@@ -1,0 +1,33 @@
+set terminal pngcairo font "arial,10" size 900,900
+
+set output "curve.png"
+
+curve = "curve.data"
+
+set title 'curve plot'
+set xlabel 'x'
+set ylabel 'y'
+set xrange [-5:205]
+set yrange [-50:150]
+
+
+plot curve with lines lw 3 lc rgb 'blue' notitle, \
+     curve pt 5 lw 4 lc rgb 'red' notitle
+
+
+
+
+
+set output "perp_simple_curve.png"
+
+curve = "perp_simple_curve.data"
+
+set title 'perpendicular distance algorithm plot'
+set xlabel 'x'
+set ylabel 'y'
+set xrange [-5:205]
+set yrange [-50:150]
+
+
+plot curve with lines lw 3 lc rgb 'blue' notitle, \
+     curve pt 5 lw 4 lc rgb 'red' notitle

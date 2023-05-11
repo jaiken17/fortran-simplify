@@ -3,6 +3,8 @@ polytest
 
 # Output
 *.txt
+*.data
+*.png
 
 # Prerequisites
 *.d
