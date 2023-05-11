@@ -415,4 +415,46 @@ contains
 ! ~~~~~~~ End Perpendicular Distan~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+
+
+
+! ~~~~~~~ Reumann-Witkam ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    function reumannWitkam(curve,tolerance) result(simpleCurve)
+        real(dp),dimension(:,:),allocatable :: simpleCurve
+        real(dp),dimension(:,:),intent(in) :: curve
+        real(dp),intent(in) :: tolerance
+
+        integer :: length
+        real(dp) :: squareTolerance, squareDistance
+
+
+        length = size(curve,dim=1)
+
+        ! Make necessary checks
+
+        if (tolerance <= 0._dp) then
+            stop 'tolerance must be >0'
+        end if
+
+        if (length < 2) then
+            stop 'curve is too short'
+        end if
+
+        squareTolerance = tolerance*tolerance
+
+        ! allocate maximum amount of memory
+        allocate(simpleCurve(length,size(curve,dim=2)))
+
+
+
+
+    end function reumannWitkam
+
+
+
+! ~~~~~~~ End Reumann-Witkam ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
 end module Simplify
