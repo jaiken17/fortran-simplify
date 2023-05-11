@@ -336,6 +336,7 @@ contains
         real(dp),intent(in) :: tolerance
 
         integer :: i, length, newLength
+        logical :: last_is_key = .false., skip_iter = .false.
         real(dp) :: squareDistance, squareTolerance
         
 
@@ -361,15 +362,27 @@ contains
         newLength = 1
 
         do i=2,length-1
+            if (skip_iter) then
+                skip_iter = .false.
+                cycle
+            end if
+
             squareDistance = d2LineToPoint(simpleCurve(newLength,:),curve(i+1,:),curve(i,:))
             if (squareDistance >= squareTolerance) then
                 newLength = newLength + 1
                 simpleCurve(newLength,:) = curve(i,:)
+            else
+                newLength = newLength + 1
+                simpleCurve(newLength,:) = curve(i+1,:)
+                skip_iter = .true.
+                if (i+1 == length) last_is_key = .true.
             end if
         end do
 
-        newLength = newLength + 1
-        simpleCurve(newLength,:) = curve(length,:)  ! Last element is always a key
+        if (.not. last_is_key) then   ! last element may already be set as key
+            newLength = newLength + 1
+            simpleCurve(newLength,:) = curve(length,:)  ! Last element is always a key
+        end if
 
         simpleCurve = simpleCurve(1:newLength,:)    ! Resize simpleCurve to only needed elements
 
