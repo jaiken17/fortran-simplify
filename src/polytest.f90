@@ -25,18 +25,21 @@ program PolyTest
     
     write(*,'(A15)',advance='no') "x="
     call writeVector(x)
-    write(*,*)
 
     write(*,'(A15)',advance='no') "3th of x=" 
     call writeVector(nthPoint(x,3))
-    write(*,*)
-    write(*,*) "within 2 of x=", radialDistance(x,1._dp)
+    write(*,'(A15)',advance='no') "within 2 of x="
+    call writeVector(radialDistance(x,1._dp))
 
-    write(*,*) "y(:)=", y(:,1)
-    write(*,*) "     ", y(:,2)
+    write(*,'(A15)',advance='no') "y(:,1)="
+    call writeVector(y(:,1))
+    write(*,'(A15)',advance='no') "y(:,2)="
+    call writeVector(y(:,2))
     simpleY = perpendicularDistance(y,2._dp)
-    write(*,*) "perp of y, tol=2:", simpleY(:,1)
-    write(*,*) "                 ", simpleY(:,2)
+    write(*,'(A15)',advance='no') "perp of y, tol=2:"
+    call writeVector(simpleY(:,1))
+    write(*,'(A15)',advance='no') "                 "
+    call writeVector(simpleY(:,2))
 
 contains
 
@@ -59,6 +62,7 @@ contains
         do i=1,length
             write(unit=*,fmt=fmt,advance='no') vector(i)
         end do
+        write(*,*)  ! insert newline
 
     end subroutine writeVectorNoUnit
 
@@ -81,6 +85,7 @@ contains
         do i=1,length
             write(unit=unit,fmt=fmt,advance='no') vector(i)
         end do
+        write(*,*)  ! inser newline
 
     end subroutine writeVectorUnit
 
