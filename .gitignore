@@ -1,6 +1,8 @@
 # Program
 polytest
 
+# Output
+*.txt
 
 # Prerequisites
 *.d
