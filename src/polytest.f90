@@ -1,6 +1,7 @@
 program PolyTest
     use Precision
     use Simplify
+    use IO
     implicit none
 
     interface writeVector
@@ -12,9 +13,10 @@ program PolyTest
 
 
     real(dp),dimension(:),allocatable :: x
-    real(dp),dimension(10,2) :: y = (/ (/ (i, i=1,10,1) /)   ,      &
-                                       (/ (i**2, i=1,10,1) /) /)
+    real(dp),dimension(9,2) :: y = 1._dp*(/ (/ 0, 20, 45, 50, 100, 130, 165, 180, 200 /)   ,      &
+                                       (/ 0, 110, 105, 110, 100, -20, -10, -20, 100 /) /)
     real(dp),dimension(:,:),allocatable :: simpleY
+    character(len=20),dimension(:),allocatable :: headers
     integer :: i
 
     allocate(x(10))
@@ -31,15 +33,12 @@ program PolyTest
     write(*,'(A15)',advance='no') "within 2 of x="
     call writeVector(radialDistance(x,1._dp))
 
-    write(*,'(A15)',advance='no') "y(:,1)="
-    call writeVector(y(:,1))
-    write(*,'(A15)',advance='no') "y(:,2)="
-    call writeVector(y(:,2))
+    headers = (/"#x", "y"/)
+    call outputMatrixWithHeaders(y,headers,"curve.data",20)
+
     simpleY = perpendicularDistance(y,2._dp)
-    write(*,'(A15)',advance='no') "perp of y, tol=2:"
-    call writeVector(simpleY(:,1))
-    write(*,'(A15)',advance='no') "                 "
-    call writeVector(simpleY(:,2))
+
+    call outputMatrixWithHeaders(simpleY,headers,"perp_simple_curve.data",21)
 
 contains
 
