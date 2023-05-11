@@ -96,6 +96,8 @@ contains
 
         t = dot_product(xMinusA,bMinusA)/dot_product(bMinusA,bMinusA)
         v = linePoint1 + t*bMinusA
+        
+        vMinusX = v - point
 
         distance2 = dot_product(vMinusX,vMinusX)
 
