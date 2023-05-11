@@ -36,7 +36,7 @@ program PolyTest
     headers = (/"#x", "y"/)
     call outputMatrixWithHeaders(y,headers,"curve.data",20)
 
-    simpleY = perpendicularDistance(y,2._dp)
+    simpleY = perpendicularDistance(y,20._dp)
 
     call outputMatrixWithHeaders(simpleY,headers,"perp_simple_curve.data",21)
 
