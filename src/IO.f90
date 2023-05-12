@@ -1,14 +1,14 @@
-module IO
-    use Precision
+module io
+    use precision
     implicit none
 
     ! overload subroutine
-    interface outputMatrixWithHeaders
-        module procedure :: outputMatrixWithHeadersTerminal
-        module procedure :: outputMatrixWithHeadersFile
-        module procedure :: outputVectorWithHeadersTerminal
-        module procedure :: outputVectorWithHeadersFile
-    end interface outputMatrixWithHeaders
+    interface output_matrix_with_headers
+        module procedure :: output_matrix_with_headers_terminal
+        module procedure :: output_matrix_with_headers_file
+        module procedure :: output_vector_with_headers_terminal
+        module procedure :: output_vector_with_headers_file
+    end interface output_matrix_with_headers
 
 
 contains
@@ -105,7 +105,7 @@ contains
 ! OUTPUT MATRIX WITH HEADERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-    subroutine outputMatrixWithHeadersTerminal(matrix, headers)
+    subroutine output_matrix_with_headers_terminal(matrix, headers)
         implicit none
         real(dp), dimension(:, :), intent(in) :: matrix     ! matrix to output
         character(len=*), dimension(:), intent(in) :: headers ! column headers
@@ -135,9 +135,9 @@ contains
             end do
             write(*, *) ! print newline after each row
         end do
-      end subroutine outputMatrixWithHeadersTerminal
+      end subroutine output_matrix_with_headers_terminal
       
-      subroutine outputMatrixWithHeadersFile(matrix, headers, filename, unit)
+      subroutine output_matrix_with_headers_file(matrix, headers, filename, unit)
         implicit none
         real(dp), dimension(:, :), intent(in) :: matrix     ! matrix to output
         character(len=*), dimension(:), intent(in) :: headers ! column headers
@@ -175,10 +175,10 @@ contains
 
         close(unit)
 
-      end subroutine outputMatrixWithHeadersFile
+      end subroutine output_matrix_with_headers_file
 
 
-      subroutine outputVectorWithHeadersTerminal(vector, headers)
+      subroutine output_vector_with_headers_terminal(vector, headers)
         implicit none
         real(dp), dimension(:), intent(in) :: vector     ! vector to output
         character(len=*), intent(in) :: headers ! column headers
@@ -198,9 +198,9 @@ contains
         do i = 1, num_rows
             write(*, '(f19.10, 1x)') vector(i)
         end do
-      end subroutine outputVectorWithHeadersTerminal
+      end subroutine output_vector_with_headers_terminal
       
-      subroutine outputVectorWithHeadersFile(vector, headers, filename, unit)
+      subroutine output_vector_with_headers_file(vector, headers, filename, unit)
         implicit none
         real(dp), dimension(:), intent(in) :: vector     ! vector to output
         character(len=*), intent(in) :: headers ! column headers
@@ -226,7 +226,7 @@ contains
 
         close(unit)
 
-      end subroutine outputVectorWithHeadersFile
+      end subroutine output_vector_with_headers_file
 
 
 

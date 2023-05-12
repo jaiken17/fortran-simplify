@@ -1,13 +1,13 @@
-program PolyTest
-    use Precision
-    use Simplify
-    use IO
+program poly_test
+    use precision
+    use simplify
+    use io
     implicit none
 
-    interface writeVector
-        procedure :: writeVectorNoUnit
-        procedure :: writeVectorUnit
-    end interface writeVector
+    interface write_vector
+        procedure :: write_vectorNoUnit
+        procedure :: write_vector_unit
+    end interface write_vector
 
 
 
@@ -26,32 +26,31 @@ program PolyTest
     end do
     
     write(*,'(A15)',advance='no') "x="
-    call writeVector(x)
+    call write_vector(x)
 
     write(*,'(A15)',advance='no') "3th of x=" 
-    call writeVector(nthPoint(x,3))
+    call write_vector(nth_point(x,3))
     write(*,'(A15)',advance='no') "within 2 of x="
-    call writeVector(radialDistance(x,1._dp))
+    call write_vector(radial_distance(x,1._dp))
 
     headers = (/"#x", "y"/)
-    call outputMatrixWithHeaders(y,headers,"curve.data",20)
+    call output_matrix_with_headers(y,headers,"curve.data",20)
 
-    simpleY = perpendicularDistance(y,20._dp)
+    simpleY = perpendicular_distance(y,20._dp)
 
-    call outputMatrixWithHeaders(simpleY,headers,"perp_simple_curve.data",21)
+    call output_matrix_with_headers(simpleY,headers,"perp_simple_curve.data",21)
 
-    simpleY = reumannWitkam(y,20._dp)
+    simpleY = reumann_witkam(y,20._dp)
 
-    call outputMatrixWithHeaders(simpleY,headers,"reumann_witkam_simple_curve.data",22)
+    call output_matrix_with_headers(simpleY,headers,"reumann_witkam_simple_curve.data",22)
 
 contains
 
-    subroutine writeVectorNoUnit(vector,format)
+    subroutine write_vectorNoUnit(vector,format)
         real(dp),dimension(:),intent(in) :: vector
         character(len=*),intent(in),optional :: format
 
         integer :: i, length
-        integer :: unitOut
         character(len=:),allocatable :: fmt
 
         if (present(format)) then
@@ -67,9 +66,9 @@ contains
         end do
         write(*,*)  ! insert newline
 
-    end subroutine writeVectorNoUnit
+    end subroutine write_vectorNoUnit
 
-    subroutine writeVectorUnit(vector,unit,format)
+    subroutine write_vector_unit(vector,unit,format)
         real(dp),dimension(:),intent(in) :: vector
         integer,intent(in) :: unit
         character(len=*),intent(in),optional :: format
@@ -88,9 +87,9 @@ contains
         do i=1,length
             write(unit=unit,fmt=fmt,advance='no') vector(i)
         end do
-        write(*,*)  ! inser newline
+        write(*,*)  ! insert newline
 
-    end subroutine writeVectorUnit
+    end subroutine write_vector_unit
 
 
-end program PolyTest
+end program poly_test
