@@ -9,7 +9,7 @@ FORT ?= gfortran
 COMPOBJ = $(FORT) -c -o
 COMPMAIN = $(FORT) -o
 MAINSOURCE = polytest.f90
-SOURCES = $(BSPLINE) precision.f90 IO.f90 simplify.f90
+SOURCES = $(BSPLINE) precision.f90 io.f90 simplify.f90
 
 
 $(BUILDDIR)/$(TARGET): $(SOURCEDIR)/$(MAINSOURCE) $(subst .f90,.out, $(SOURCES))
