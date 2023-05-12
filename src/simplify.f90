@@ -4,7 +4,7 @@ module Simplify
 
 
     private
-    public nthPoint, radialDistance, perpendicularDistance
+    public nthPoint, radialDistance, perpendicularDistance, reumannWitkam
 
 
     interface nthPoint
@@ -413,6 +413,88 @@ contains
     end function perpendicularDistanceRepeat
 
 ! ~~~~~~~ End Perpendicular Distan~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+! ~~~~~~~ Reumann-Witkam ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    function reumannWitkam(curve,tolerance) result(simpleCurve)
+        real(dp),dimension(:,:),allocatable :: simpleCurve
+        real(dp),dimension(:,:),intent(in) :: curve
+        real(dp),intent(in) :: tolerance
+
+        integer :: i, j, length, newLength
+        logical :: not_last,not_key
+        real(dp) :: squareTolerance, squareDistance
+        real(dp),dimension(:),allocatable :: current, next_point, test_point, next_potential_key
+
+
+        length = size(curve,dim=1)
+
+        ! Make necessary checks
+
+        if (tolerance <= 0._dp) then
+            stop 'tolerance must be >0'
+        end if
+
+        if (length < 2) then
+            stop 'curve is too short'
+        end if
+
+        squareTolerance = tolerance*tolerance
+
+        ! allocate maximum amount of memory
+        allocate(simpleCurve(length,size(curve,dim=2)))
+
+        simpleCurve(1,:) = curve(1,:)   ! First element is always a key
+        newLength = 1
+
+        i = 1
+        not_last = .true.
+
+        main_loop: do while(not_last)
+            i = i + 1
+            if (i==length) then ! last point is always a key
+                newLength = newLength + 1
+                simpleCurve(newLength,:) = curve(i,:)
+                exit main_loop
+            end if
+            current = simpleCurve(newLength,:)  ! current is most recent key
+            next_point = curve(i,:)             ! next point is point next to most recent key
+            next_potential_key = next_point
+            not_key = .true.
+            j = i + 1
+            do while(not_key)   ! loop over points until one is outside of tolerance. key is the last within tolerance
+                test_point = curve(j,:)
+                squareDistance = d2LineToPoint(current,next_point,test_point)
+                if (squareDistance >= squareTolerance) then     ! test point is outside of tolerance so previous point is key
+                    newLength = newLength + 1
+                    simpleCurve(newLength,:) = next_potential_key
+                    not_key = .false.
+                else if (j == length) then  ! last point is always a key
+                    newLength = newLength + 1
+                    simpleCurve(newLength,:) = curve(i,:)
+                    exit main_loop
+                else            ! test point still within tolerance so is upgraded to next potential key
+                    next_potential_key = test_point
+                    j = j + 1
+                end if
+            end do
+            i = j-1
+
+        end do main_loop
+
+
+        simpleCurve = simpleCurve(1:newLength,:)    ! resize array
+
+    end function reumannWitkam
+
+
+
+! ~~~~~~~ End Reumann-Witkam ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 
 end module Simplify

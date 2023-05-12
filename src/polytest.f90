@@ -40,6 +40,10 @@ program PolyTest
 
     call outputMatrixWithHeaders(simpleY,headers,"perp_simple_curve.data",21)
 
+    simpleY = reumannWitkam(y,20._dp)
+
+    call outputMatrixWithHeaders(simpleY,headers,"reumann_witkam_simple_curve.data",22)
+
 contains
 
     subroutine writeVectorNoUnit(vector,format)

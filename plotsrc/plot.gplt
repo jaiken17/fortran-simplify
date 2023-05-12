@@ -31,3 +31,21 @@ set yrange [-50:150]
 
 plot curve with lines lw 3 lc rgb 'blue' notitle, \
      curve pt 5 lw 4 lc rgb 'red' notitle
+
+
+
+
+
+set output "reumann_witkam_simple_curve.png"
+
+curve = "reumann_witkam_simple_curve.data"
+
+set title 'Reumann-Witkam algorithm plot'
+set xlabel 'x'
+set ylabel 'y'
+set xrange [-5:205]
+set yrange [-50:150]
+
+
+plot curve with lines lw 3 lc rgb 'blue' notitle, \
+     curve pt 5 lw 4 lc rgb 'red' notitle
