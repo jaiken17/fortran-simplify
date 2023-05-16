@@ -20,7 +20,7 @@ plot curve with lines lw 3 lc rgb 'blue' notitle, \
 
 set output "perp_simple_curve.png"
 
-curve = "perp_simple_curve.data"
+perp_curve = "perp_simple_curve.data"
 
 set title 'perpendicular distance algorithm plot'
 set xlabel 'x'
@@ -29,8 +29,9 @@ set xrange [-5:205]
 set yrange [-50:150]
 
 
-plot curve with lines lw 3 lc rgb 'blue' notitle, \
-     curve pt 5 lw 4 lc rgb 'red' notitle
+plot curve with lines lw 3 lc rgb 'purple' title 'original curve', \
+     perp_curve with lines lw 3 lc rgb 'blue' title 'new curve', \
+     perp_curve pt 5 lw 4 lc rgb 'red' notitle
 
 
 
@@ -38,7 +39,7 @@ plot curve with lines lw 3 lc rgb 'blue' notitle, \
 
 set output "reumann_witkam_simple_curve.png"
 
-curve = "reumann_witkam_simple_curve.data"
+rw_curve = "reumann_witkam_simple_curve.data"
 
 set title 'Reumann-Witkam algorithm plot'
 set xlabel 'x'
@@ -47,5 +48,6 @@ set xrange [-5:205]
 set yrange [-50:150]
 
 
-plot curve with lines lw 3 lc rgb 'blue' notitle, \
-     curve pt 5 lw 4 lc rgb 'red' notitle
+plot curve with lines lw 3 lc rgb 'purple' title 'original curve', \
+     rw_curve with lines lw 3 lc rgb 'blue' title 'new curve', \
+     rw_curve pt 5 lw 4 lc rgb 'red' notitle
