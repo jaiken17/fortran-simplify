@@ -489,7 +489,7 @@ contains
                     not_key = .false.
                 else if (j == length) then  ! last point is always a key
                     new_length = new_length + 1
-                    simple_curve(new_length,:) = curve(i,:)
+                    simple_curve(new_length,:) = curve(j,:)
                     exit main_loop
                 else            ! test point still within tolerance so is upgraded to next potential key
                     next_potential_key = test_point
