@@ -41,7 +41,7 @@ contains
         real(dp) :: distance
         real(dp),dimension(:),intent(in) :: point1,point2
 
-        integer :: i,length
+        integer :: length
 
         length = size(point1,dim=1)
         if (length /= size(point2,dim=1)) then
