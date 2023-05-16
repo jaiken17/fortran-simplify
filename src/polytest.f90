@@ -20,8 +20,8 @@ program poly_test
 
 
     real(dp),dimension(:),allocatable :: x
-    real(dp),dimension(9,2) :: y = 1._dp*(/ (/ 0, 20, 45, 50, 100, 130, 165, 180, 200 /)   ,      &
-                                       (/ 0, 110, 105, 110, 100, -20, -10, -20, 100 /) /)
+    real(dp),dimension(10,2) :: y = 1._dp*(/ (/ 0, 20, 45, 50, 100, 130, 165, 180, 200, 198 /)   ,      &
+                                       (/ 0, 110, 105, 110, 100, -20, -10, -20, 100, 102 /) /)
     real(dp),dimension(:,:),allocatable :: simpleY
     character(len=20),dimension(:),allocatable :: headers
     integer :: i
