@@ -41,7 +41,7 @@ contains
         real(dp) :: distance
         real(dp),dimension(:),intent(in) :: point1,point2
 
-        integer :: i,length
+        integer :: length
 
         length = size(point1,dim=1)
         if (length /= size(point2,dim=1)) then
@@ -418,6 +418,14 @@ contains
 
 
 ! ~~~~~~~ Reumann-Witkam ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    ! rumann_witkam is a function that implements the Reumann-Witkam polyline 
+    ! simplification algorithm. It works on n-dimensional curves (n>2)
+    ! and takes parameter "tolerance" which is interpreted as how close points
+    ! can be to a line defined by the current key and next element of the
+    ! curve. Smaller values of tolerance result in more points being included as
+    ! keys in the simplified curve.
+
 
     function reumann_witkam(curve,tolerance) result(simple_curve)
         real(dp),dimension(:,:),allocatable :: simple_curve

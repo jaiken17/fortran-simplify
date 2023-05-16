@@ -33,7 +33,7 @@ program poly_test
     write(*,'(A15)',advance='no') "within 2 of x="
     call write_vector(radial_distance(x,1._dp))
 
-    headers = (/"#x", "y"/)
+    headers = (/'#x', ' y'/)
     call output_matrix_with_headers(y,headers,"curve.data",20)
 
     simpleY = perpendicular_distance(y,20._dp)

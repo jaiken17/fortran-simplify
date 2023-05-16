@@ -19,8 +19,7 @@ contains
         integer,intent(in) :: unit, num_cols, num_rows
         real(dp),dimension(:, :),allocatable,intent(out) :: data  ! matrix to store data
     
-        integer :: i, j
-        real(dp) :: temp
+        integer :: i
 
         open(unit=unit, file=filename, status='old')
     
