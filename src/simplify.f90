@@ -421,9 +421,9 @@ contains
 
     ! rumann_witkam is a function that implements the Reumann-Witkam polyline 
     ! simplification algorithm. It works on n-dimensional curves (n>2)
-    ! and takes parameter "tol" which is interpreted as how close points
+    ! and takes parameter "tolerance" which is interpreted as how close points
     ! can be to a line defined by the current key and next element of the
-    ! curve. Smaller values of tol result in more points being included as
+    ! curve. Smaller values of tolerance result in more points being included as
     ! keys in the simplified curve.
 
 
