@@ -21,7 +21,7 @@ module io
 contains
 
 
-    subroutine readDataFile(filename, unit, num_rows, num_cols, data)
+    subroutine read_data_file(filename, unit, num_rows, num_cols, data)
         character(*),intent(in) :: filename  ! name of data file
         integer,intent(in) :: unit, num_cols, num_rows
         real(dp),dimension(:, :),allocatable,intent(out) :: data  ! matrix to store data
@@ -44,10 +44,10 @@ contains
     
         close(unit)
 
-    end subroutine readDataFile
+    end subroutine read_data_file
 
 
-    subroutine outputMatrix(matrix,reverse_rows,reverse_cols)
+    subroutine output_matrix(matrix,reverse_rows,reverse_cols)
         real(dp), dimension(:, :), intent(in) :: matrix  ! matrix to output
         logical,intent(in),optional :: reverse_rows, reverse_cols
         integer :: num_rows, num_cols         ! number of rows and columns in matrix
@@ -100,7 +100,7 @@ contains
         end do
         write(*,*) ! newline
 
-    end subroutine outputMatrix
+    end subroutine output_matrix
       
 
 

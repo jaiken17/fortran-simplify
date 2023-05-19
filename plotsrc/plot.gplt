@@ -51,3 +51,42 @@ set yrange [-50:150]
 plot curve with lines lw 3 lc rgb 'purple' title 'original curve', \
      rw_curve with lines lw 3 lc rgb 'blue' title 'new curve', \
      rw_curve pt 5 lw 4 lc rgb 'red' notitle
+
+
+
+# Indices
+
+
+set output "perp_simple_curve_indices.png"
+
+perp_curve = "perp_simple_curve_indices.data"
+
+set title 'perpendicular distance algorithm with indices plot'
+set xlabel 'x'
+set ylabel 'y'
+set xrange [-5:205]
+set yrange [-50:150]
+
+
+plot curve with lines lw 3 lc rgb 'purple' title 'original curve', \
+     perp_curve with lines lw 3 lc rgb 'blue' title 'new curve', \
+     perp_curve pt 5 lw 4 lc rgb 'red' notitle
+
+
+
+
+
+set output "reumann_witkam_simple_curve_indices.png"
+
+rw_curve = "reumann_witkam_simple_curve_indices.data"
+
+set title 'Reumann-Witkam algorithm with indices plot'
+set xlabel 'x'
+set ylabel 'y'
+set xrange [-5:205]
+set yrange [-50:150]
+
+
+plot curve with lines lw 3 lc rgb 'purple' title 'original curve', \
+     rw_curve with lines lw 3 lc rgb 'blue' title 'new curve', \
+     rw_curve pt 5 lw 4 lc rgb 'red' notitle
