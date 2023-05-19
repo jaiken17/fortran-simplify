@@ -23,6 +23,7 @@ program poly_test
     real(dp),dimension(10,2) :: y = 1._dp*(/ (/ 0, 20, 45, 50, 100, 130, 165, 180, 200, 198 /)   ,      &
                                        (/ 0, 110, 105, 110, 100, -20, -10, -20, 100, 102 /) /)
     real(dp),dimension(:,:),allocatable :: simpleY
+    integer,dimension(:),allocatable :: simple_y_indices
     character(len=20),dimension(:),allocatable :: headers
     integer :: i
 
@@ -44,12 +45,17 @@ program poly_test
     call output_matrix_with_headers(y,headers,"curve.data",20)
 
     simpleY = perpendicular_distance(y,20._dp)
+    simple_y_indices = perpendicular_distance_indices(y,20._dp)
 
     call output_matrix_with_headers(simpleY,headers,"perp_simple_curve.data",21)
+    call output_matrix_with_headers(y(simple_y_indices,:),headers,"perp_simple_curve_indices.data",23)
+    
 
     simpleY = reumann_witkam(y,20._dp)
+    simple_y_indices = reumann_witkam_indices(y,20._dp)
 
     call output_matrix_with_headers(simpleY,headers,"reumann_witkam_simple_curve.data",22)
+    call output_matrix_with_headers(y(simple_y_indices,:),headers,"reumann_witkam_simple_curve_indices.data",24)
 
 contains
 
