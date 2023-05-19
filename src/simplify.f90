@@ -12,7 +12,7 @@ module simplify
 
     private
     public nth_point, nth_point_indices, radial_distance, radial_distance_indices, perpendicular_distance,  &
-        perpendicular_distance_indices, reumann_witkam
+        perpendicular_distance_indices, reumann_witkam, reumann_witkam_indices
 
 
     interface nth_point
