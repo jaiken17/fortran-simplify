@@ -433,7 +433,7 @@ contains
 
 
     function radial_distance_multi_indices(curve,tolerance) result(simple_curve_indices)
-        real(dp),dimension(:),allocatable :: simple_curve_indices
+        integer,dimension(:),allocatable :: simple_curve_indices
         real(dp),dimension(:,:),intent(in) :: curve
         real(dp),intent(in) :: tolerance
         
@@ -485,7 +485,7 @@ contains
     end function radial_distance_multi_indices
 
     function radial_distance_single_indices(curve,tolerance) result(simple_curve_indices)
-        real(dp),dimension(:),allocatable :: simple_curve_indices
+        integer,dimension(:),allocatable :: simple_curve_indices
         real(dp),dimension(:),intent(in) :: curve
         real(dp),intent(in) :: tolerance
         
@@ -642,7 +642,7 @@ contains
 
 
 function perp_distance_indices(curve,tolerance) result(simple_curve_indices)
-        real(dp),dimension(:),allocatable :: simple_curve_indices
+        integer,dimension(:),allocatable :: simple_curve_indices
         real(dp),dimension(:,:),intent(in) :: curve
         real(dp),intent(in) :: tolerance
 
@@ -819,7 +819,7 @@ function perp_distance_indices(curve,tolerance) result(simple_curve_indices)
     ! Index returning version
 
     function reumann_witkam_indices(curve,tolerance) result(simple_curve_indices)
-        real(dp),dimension(:),allocatable :: simple_curve_indices
+        integer,dimension(:),allocatable :: simple_curve_indices
         real(dp),dimension(:,:),intent(in) :: curve
         real(dp),intent(in) :: tolerance
 
