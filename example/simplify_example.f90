@@ -5,7 +5,7 @@
 !   LICENSE file in the root directory of this source tree. 
 
 
-program poly_test
+program simplify_example
     use precision
     use simplify
     use io
@@ -20,13 +20,17 @@ program poly_test
 
 
     real(dp),dimension(:),allocatable :: x
-    real(dp),dimension(10,2) :: y = 1._dp*(/ (/ 0, 20, 45, 50, 100, 130, 165, 180, 200, 198 /)   ,      &
-                                       (/ 0, 110, 105, 110, 100, -20, -10, -20, 100, 102 /) /)
+    real(dp),dimension(10,2) :: y
     real(dp),dimension(:,:),allocatable :: simpleY
     integer,dimension(:),allocatable :: simple_y_indices
     character(len=20),dimension(:),allocatable :: headers
     integer :: i
 
+    call chdir("example")   ! FPM always runs in 'root' workspace directory
+
+    y(:,1) = 1._dp*[ 0, 20, 45, 50, 100, 130, 165, 180, 200, 198 ]
+    y(:,2) = 1._dp*[ 0, 110, 105, 110, 100, -20, -10, -20, 100, 102 ]
+    
     allocate(x(10))
 
     do i=1,10
@@ -105,4 +109,4 @@ contains
     end subroutine write_vector_unit
 
 
-end program poly_test
+end program simplify_example

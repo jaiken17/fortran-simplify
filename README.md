@@ -14,20 +14,23 @@ use real_kinds_module, only : dp => real_kind
 ```
 All that is left is to add a `use` statement for the module in whichever program units you need the algorithms and to compile the module as normal.
 
+To add fortran-simplify to your fpm project, simply add the following line to the `fpm.toml` file under the `[dependencies]` tag:
+```toml
+fortran-simplify.git = "https://github.com/jaiken17/fortran-simplify"
+```
+
 
 </br>
 
-## `polytest` Test Program
+## `simplify_example` Example Program
 Included is a simple test program that runs the algorithms on a couple of curves. The two dimensional curve is also written to a file `curve.data` and the output from the perpendicular distance and Reumann-Witkam algorithms are written to `perp_simple_curve.data` and `ruemann_witkam_simple_curve.data`, respectively. 
 
-With either gfortran or ifort installed, compile and run the program in a bash shell by excuting the following commands in the top-level project directory:
+With the Fortran Package Manager ([fpm](https://github.com/fortran-lang/fpm)) installed, compile and run the example program in a shell by excuting the following command in the top-level project directory:
 ```bash
-./clean
-./make
-./run
+fpm run --example
 ```
 
-The data files can then be plotted with gnuplot by running the plot script:
+The data files are then created in the example directory and can then be plotted with gnuplot by running the plot bash script (within the example directory):
 ```bash
 ./plot
 ```
