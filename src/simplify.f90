@@ -6,7 +6,7 @@
 
 
 module simplify
-    use precision
+    use smpl_precision
     implicit none
 
 
