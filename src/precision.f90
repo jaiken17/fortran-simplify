@@ -5,8 +5,8 @@
 !   LICENSE file in the root directory of this source tree. 
 
 
-module precision
-    use, intrinsic :: iso_fortran_env, only : dp => real64
+module smpl_precision
+    use stdlib_kinds,only: dp
     implicit none
 
-end module precision
+end module smpl_precision
