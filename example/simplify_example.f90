@@ -6,9 +6,9 @@
 
 
 program simplify_example
-    use precision
+    use smpl_precision
     use simplify
-    use io
+    use smpl_io
     implicit none
 
     interface write_vector

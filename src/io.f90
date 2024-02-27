@@ -5,8 +5,8 @@
 !   LICENSE file in the root directory of this source tree. 
 
 
-module io
-    use precision
+module smpl_io
+    use smpl_precision
     implicit none
 
     ! overload subroutine
@@ -237,4 +237,4 @@ contains
 
 
 
-end module IO
+end module smpl_io
