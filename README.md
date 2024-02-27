@@ -4,9 +4,9 @@ Fortran module that reduces the over-sampled resolution of a polyline. This proc
 </br>
 
 ## How To Use
-The `simplify` module is all that is necessary to use the polyline simplification algorithms. The `simplify` module does depend on a `precision` module that at least needs to contain a real kind named `dp`. This can easily be modified to accept a real kind with another name in a different module by changing the line in `simplify.f90` from
+The `simplify` module is all that is necessary to use the polyline simplification algorithms. The `simplify` module does depend on a `smpl_precision` module that at least needs to contain a real kind named `dp`. In this case, it uses the double precision real kind from the `stdlib_kinds` module found in https://github.com/fortran-lang/stdlib. This can easily be modified to accept a real kind with another name in a different module by changing the line in `simplify.f90` from
 ```Fortran
-use precision
+use smpl_precision
 ```
 to
 ```Fortran
