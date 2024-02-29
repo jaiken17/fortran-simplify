@@ -6,8 +6,11 @@
 
 
 module smpl_io
-    use smpl_precision
+    use smpl_precision, only: dp
     implicit none
+
+    private
+    public :: output_matrix_with_headers, output_matrix, read_data_file
 
     ! overload subroutine
     interface output_matrix_with_headers
